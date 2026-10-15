@@ -1,0 +1,305 @@
+<title>Factorial Job Boards Directory</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Factorial look: midnight hero band, coral accent, DM Sans, pill controls (F0-like). Layout: directory sheet — header with live counts, sticky filter bar, then a card grid or dense table of every posting route */
+:root{
+  --bg:#fafafc; --surface:#ffffff; --surface-2:#f6f6f8; --line:#e6e6ec;
+  --fg:#25253d; --muted:#6b6b80;
+  --accent:#ff355e; --accent-soft:#ffe3ea; --accent-fg:#ffffff; --accent-ink:#c60f35;
+  --organic:#05646b; --organic-soft:#e8f6f7;
+  --market:#c60f35; --market-soft:#fff0f3;
+  --new:#7a5600; --new-soft:#fff6e0;
+  --hero:#25253d; --hero-fg:#ffffff; --hero-muted:#c4c4d4;
+  --shadow:0 1px 2px rgba(37,37,61,.05),0 6px 18px rgba(37,37,61,.06);
+  --f-display:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1a1a2b; --surface:#23233a; --surface-2:#2b2b44; --line:#34344d;
+  --fg:#f6f6f8; --muted:#aeaeb8;
+  --accent:#ff355e; --accent-soft:rgba(255,53,94,.16); --accent-fg:#ffffff; --accent-ink:#ff7a94;
+  --organic:#5fd3db; --organic-soft:rgba(7,162,173,.2);
+  --market:#ff8aa1; --market-soft:rgba(255,53,94,.18);
+  --new:#ffd27f; --new-soft:rgba(255,193,85,.18);
+  --hero:#23233a; --hero-fg:#f6f6f8; --hero-muted:#aeaeb8;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1a1a2b; --surface:#23233a; --surface-2:#2b2b44; --line:#34344d;
+  --fg:#f6f6f8; --muted:#aeaeb8;
+  --accent:#ff355e; --accent-soft:rgba(255,53,94,.16); --accent-fg:#ffffff; --accent-ink:#ff7a94;
+  --organic:#5fd3db; --organic-soft:rgba(7,162,173,.2);
+  --market:#ff8aa1; --market-soft:rgba(255,53,94,.18);
+  --new:#ffd27f; --new-soft:rgba(255,193,85,.18);
+  --hero:#23233a; --hero-fg:#f6f6f8; --hero-muted:#aeaeb8;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.wrap{padding-block:56px 28px;display:grid;gap:20px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;justify-self:start;font-weight:600;font-size:14px;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:5px 14px}
+.eyebrow svg{width:16px;height:16px}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,5.5vw,56px);line-height:1.02;letter-spacing:-.02em;margin:0;max-width:16ch;text-wrap:balance}
+.lede{margin:0;max-width:62ch;color:var(--muted);font-size:17px}
+.stats{display:flex;flex-wrap:wrap;gap:28px 40px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.leg{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.leg i{flex:none;width:10px;height:10px;border-radius:3px;margin-top:6px}
+.leg b{display:block;font-size:14px}
+.leg p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.news{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;background:var(--new-soft);border-radius:14px;padding:12px 16px;font-size:14px}
+.news strong{color:var(--new)}
+.news button{font:inherit;font-weight:600;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 12px;cursor:pointer}
+.news button:hover{border-color:var(--new)}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-block:1px solid var(--line)}
+.bar .wrap{padding-block:12px;display:grid;grid-template-columns:1.3fr 1fr 220px;gap:10px}
+@media (max-width:760px){.bar .wrap{grid-template-columns:1fr 1fr}.bar .search{grid-column:1/-1}}
+.ctl{position:relative;min-width:0}
+.ctl svg.ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);pointer-events:none}
+input[type=search],.ctl select,.cbtn{width:100%;height:44px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:12px;font:inherit;font-size:14px;padding:0 12px 0 36px}
+.ctl select{appearance:none;cursor:pointer;padding-right:30px}
+.ctl .chev{left:auto;right:12px}
+.cbtn{text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pop{position:absolute;top:calc(100% + 6px);left:0;width:min(320px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.18);padding:8px;z-index:40}
+.pop input{width:100%;height:36px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--fg);font:inherit;font-size:14px;padding:0 10px;margin-bottom:6px}
+.pop ul{list-style:none;margin:0;padding:0;max-height:300px;overflow:auto}
+.pop li label{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:14px}
+.pop li label:hover{background:var(--surface-2)}
+.pop li code{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.pop .sep{border-top:1px solid var(--line);margin:4px 0}
+.pop .foot{display:flex;justify-content:space-between;padding:6px 4px 0}
+.linkbtn{background:none;border:0;color:var(--accent);font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:4px}
+
+main.wrap{padding-block:22px 64px}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.count{font-size:14px;color:var(--muted)}
+.count b{color:var(--fg);font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:3px}
+.seg button{font:inherit;font-size:13px;font-weight:600;border:0;background:none;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0;box-shadow:var(--shadow)}
+.card.is-new{border-color:color-mix(in srgb,var(--new) 45%,var(--line))}
+.ch{display:flex;gap:12px;align-items:flex-start}
+.av{flex:none;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:15px}
+.t-org .av{background:var(--organic-soft);color:var(--organic)}
+.t-mkt .av{background:var(--market-soft);color:var(--market)}
+.ch h3{margin:0;font-size:16px;font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.tag{font-size:11.5px;font-weight:600;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.tag.org{background:var(--organic-soft);color:var(--organic)}
+.tag.mkt{background:var(--market-soft);color:var(--market)}
+.tag.new{background:var(--new-soft);color:var(--new)}
+.tag.ind{background:var(--surface-2);color:var(--muted);font-weight:500;white-space:normal}
+.desc{margin:0;font-size:13.5px;color:var(--muted)}
+.pk{display:grid;grid-template-columns:1fr auto auto;gap:4px 16px;align-items:end;background:var(--surface-2);border-radius:11px;padding:10px 12px}
+.pk .lb{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pk .v{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.pk .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.cc{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto}
+.cc span,.cc button{font-family:var(--f-mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--fg);background:none}
+.cc button{cursor:pointer;color:var(--accent);border-style:dashed}
+.cc .world{font-family:var(--f-body);font-size:12px}
+
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:14px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+td .cs{font-family:var(--f-mono);font-size:12px;color:var(--muted);max-width:260px}
+td b{font-weight:600}
+.empty{text-align:center;padding:56px 16px;color:var(--muted)}
+footer.wrap{padding-block:0 40px;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Factorial skin */
+body{letter-spacing:-.01em}
+.hero{background:var(--hero);color:var(--hero-fg)}
+.hero header.wrap{padding-block:40px 36px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.03em;color:var(--hero-fg)}
+.logo i{width:30px;height:30px;border-radius:999px;background:var(--accent);display:grid;place-items:center}
+.logo i::after{content:"";width:10px;height:10px;border-radius:999px;background:#fff}
+.hero .eyebrow{background:rgba(255,53,94,.18);color:#ff8aa1}
+.hero h1{font-weight:600;letter-spacing:-.035em;max-width:18ch}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .lede{color:var(--hero-muted)}
+.hero .stat span{color:var(--hero-muted)}
+.hero .stat b{font-weight:600;letter-spacing:-.03em}
+.hero .stats{gap:16px;margin-top:8px}
+.hero .stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 20px;min-width:150px}
+.under{display:grid;gap:12px;padding-block:20px 8px}
+.leg{border-radius:16px}
+.news{border-radius:999px;padding:8px 10px 8px 18px}
+@media (max-width:640px){.news{border-radius:16px}}
+input[type=search],.ctl select,.cbtn{border-radius:999px}
+.pop{border-radius:16px}
+.seg{border-radius:999px}
+.seg button{border-radius:999px}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-fg)}
+.card{border-radius:16px;box-shadow:none;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line));box-shadow:var(--shadow)}
+.av{border-radius:999px;font-family:var(--f-body);font-weight:600;font-size:14px}
+.ch h3{font-weight:600;letter-spacing:-.02em}
+.pk{border-radius:12px}
+.cc span,.cc button{border-radius:999px;padding:1px 8px}
+.linkbtn{color:var(--accent-ink)}
+.tbl{border-radius:16px}
+.stat b{font-family:var(--f-body)}
+</style>
+
+<div class="hero"><header class="wrap">
+  <div class="brandrow"><span class="logo"><i aria-hidden="true"></i>factorial</span>
+  <div class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Recruiting · Job Boards Directory</div></div>
+  <h1>Every job board, <em>in one place.</em></h1>
+  <p class="lede">Explore the complete catalogue of paid Marketplace packages and Basic / Import Client Contract integrations available from Factorial Recruiting.</p>
+  <div class="stats" id="stats"></div>
+</header></div>
+<section class="wrap under">
+  <div class="legend">
+    <div class="leg"><i style="background:var(--organic)"></i><div><b>Basic / Import Client Contract</b><p>Organic postings, or integrations that use your existing contract with the job board.</p></div></div>
+    <div class="leg"><i style="background:var(--market)"></i><div><b>Marketplace</b><p>Premium paid posting packages you buy directly through Factorial.</p></div></div>
+  </div>
+  <div class="news" id="news"></div>
+</section>
+
+<div class="bar">
+  <div class="wrap">
+    <label class="ctl search"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search job boards…" aria-label="Search job boards"></label>
+    <div class="ctl" id="cwrap">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+      <button class="cbtn" id="cbtn" type="button" aria-haspopup="true" aria-expanded="false"><span id="clabel">All countries</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="pop" id="pop" hidden>
+        <input id="cq" type="text" placeholder="Find a country…" aria-label="Find a country">
+        <ul id="clist"></ul>
+        <div class="foot"><button class="linkbtn" id="cclear" type="button">Clear</button><button class="linkbtn" id="cdone" type="button">Done</button></div>
+      </div>
+    </div>
+    <label class="ctl"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M6 12h12M10 19h4"/></svg>
+      <select id="type" aria-label="Listing type"><option value="all">All types</option><option value="org">Basic / Import Client Contract</option><option value="mkt">Marketplace</option></select>
+      <svg class="ic chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></label>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="top">
+    <div class="count" id="count"></div>
+    <div class="seg" role="group" aria-label="View"><button type="button" id="vCards" aria-pressed="true">Cards</button><button type="button" id="vTable" aria-pressed="false">Table</button></div>
+  </div>
+  <div id="out"></div>
+</main>
+<footer class="wrap">Prices are per job posting, excluding VAT. Availability and prices can change; your Factorial contact can confirm the current offer.</footer>
+
+<script>
+const DATA = __DATA__;
+const NEW_BOARDS = __NEW__;
+const PRIORITY = ["ES","DE","IT","PT","FR","GB"];
+const NAMES = {UK:"United Kingdom",GB:"United Kingdom"};
+let dn=null; try{dn=new Intl.DisplayNames(["en"],{type:"region"})}catch(e){}
+const cname = c => NAMES[c] || (()=>{try{const n=dn&&dn.of(c);return n&&n!==c?n:c}catch(e){return c}})();
+const split = s => (s||"").split(",").map(x=>x.trim().toUpperCase()).filter(Boolean);
+const norm = s => s.toLowerCase().trim().replace(/\s+/g," ");
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const isNew = n => NEW_BOARDS.includes(n);
+
+const rows = [
+  ...DATA.organic.map((o,i)=>({id:"o"+i,t:"org",board:o.jobBoard,countries:split(o.countries),desc:o.description,ind:o.industry})),
+  ...DATA.market.map(o=>({id:"m"+o.productId,t:"mkt",board:o.jobBoard,product:o.product,days:o.durationDays,price:o.salesPrice,countries:split(o.countries),desc:o.description,ind:o.industry}))
+];
+rows.sort((a,b)=> (isNew(b.board)-isNew(a.board)) || (a.t===b.t?0:a.t==="org"?-1:1) || a.board.localeCompare(b.board,"en",{sensitivity:"base"}) || ((a.price??0)-(b.price??0)));
+
+const allCountries = [...new Set(rows.flatMap(r=>r.countries))];
+const ordered = [...PRIORITY.filter(c=>allCountries.includes(c)), ...allCountries.filter(c=>!PRIORITY.includes(c)).sort((a,b)=>cname(a).localeCompare(cname(b)))];
+
+const st = {q:"",type:"all",cs:[],view:"cards",open:new Set()};
+try{const v=localStorage.getItem("jb-view"); if(v==="table"||v==="cards") st.view=v}catch(e){}
+
+const $ = id => document.getElementById(id);
+function stats(list){
+  const boards=new Set(list.map(r=>norm(r.board))).size, mkt=list.filter(r=>r.t==="mkt").length, cs=new Set(list.flatMap(r=>r.countries)).size;
+  return {boards,mkt,cs};
+}
+const s0=stats(rows);
+$("stats").innerHTML=`<div class="stat"><b>${s0.boards}</b><span>Job boards</span></div><div class="stat"><b>${s0.mkt}</b><span>Marketplace packages</span></div><div class="stat"><b>${s0.cs}</b><span>Countries covered</span></div>`;
+$("news").innerHTML=`<strong>Just launched</strong><span>Now live in Factorial:</span>`+NEW_BOARDS.map(n=>`<button type="button" data-q="${esc(n)}">${esc(n)}</button>`).join("");
+$("news").addEventListener("click",e=>{const b=e.target.closest("button[data-q]"); if(!b)return; st.q=b.dataset.q; $("q").value=st.q; render(); $("out").scrollIntoView({behavior:"smooth",block:"start"})});
+
+function filtered(){
+  const q=norm(st.q);
+  return rows.filter(r=>{
+    if(st.type!=="all" && r.t!==st.type) return false;
+    if(q && !norm(r.board).includes(q)) return false;
+    if(st.cs.length && r.countries.length && !st.cs.some(c=>r.countries.includes(c))) return false;
+    return true;
+  });
+}
+const initials = n => {const w=n.replace(/[^\p{L}\p{N} ]/gu," ").trim().split(/\s+/); return (w.length>1?w[0][0]+w[1][0]:w[0].slice(0,2)).toUpperCase()};
+const indTag = ind => { if(!ind) return ""; if(/aggregator/i.test(ind)) return `<span class="tag ind">Aggregator</span>`; const m=ind.match(/^Yes\s*[–-]\s*(.+)$/); return m?`<span class="tag ind">${esc(m[1])}</span>`:"" };
+const money = p => p==null?"—":"€"+Number(p).toLocaleString("en-US");
+
+function chips(r){
+  if(!r.countries.length) return `<span class="world">All countries</span>`;
+  const max=st.open.has(r.id)?r.countries.length:6;
+  let h=r.countries.slice(0,max).map(c=>`<span title="${esc(cname(c))}">${c}</span>`).join("");
+  if(r.countries.length>max) h+=`<button type="button" data-more="${r.id}" aria-label="Show all ${r.countries.length} countries">+${r.countries.length-max}</button>`;
+  return h;
+}
+function card(r){
+  const nw=isNew(r.board);
+  return `<article class="card t-${r.t}${nw?" is-new":""}">
+    <div class="ch"><div class="av">${esc(initials(r.board))}</div><div style="min-width:0"><h3>${esc(r.board)}</h3>
+      <div class="tags">${nw?'<span class="tag new">New</span>':""}<span class="tag ${r.t}">${r.t==="org"?"Basic / Import Client Contract":"Marketplace"}</span>${indTag(r.ind)}</div></div></div>
+    ${r.desc?`<p class="desc">${esc(r.desc)}</p>`:""}
+    ${r.t==="mkt"?`<div class="pk"><span class="lb">Package</span><span class="lb">Duration</span><span class="lb" style="text-align:right">Price / post</span>
+      <span class="v">${esc(r.product||"—")}</span><span class="v num">${r.days?r.days+" days":"—"}</span><span class="v num">${money(r.price)}</span></div>`:""}
+    <div class="cc">${chips(r)}</div></article>`;
+}
+function table(list){
+  return `<div class="tbl"><table><thead><tr><th>Job board</th><th>Type</th><th>Package</th><th style="text-align:right">Duration</th><th style="text-align:right">Price / post</th><th>Countries</th><th>Focus</th></tr></thead><tbody>${
+    list.map(r=>`<tr><td><b>${esc(r.board)}</b>${isNew(r.board)?' <span class="tag new">New</span>':""}</td><td><span class="tag ${r.t}">${r.t==="org"?"Basic / Contract":"Marketplace"}</span></td><td>${esc(r.product||"—")}</td><td class="num">${r.days?r.days+" d":"—"}</td><td class="num">${r.t==="mkt"?money(r.price):"—"}</td><td><div class="cs">${r.countries.length?r.countries.join(", "):"All countries"}</div></td><td>${indTag(r.ind)||'<span class="desc">General</span>'}</td></tr>`).join("")
+  }</tbody></table></div>`;
+}
+function render(){
+  const list=filtered();
+  $("count").innerHTML=`Showing <b>${list.length}</b> of ${rows.length} listings`;
+  $("vCards").setAttribute("aria-pressed",st.view==="cards"); $("vTable").setAttribute("aria-pressed",st.view==="table");
+  $("out").innerHTML = !list.length ? `<div class="empty">No job boards match these filters. <button class="linkbtn" id="reset" type="button">Clear filters</button></div>`
+    : st.view==="cards" ? `<div class="grid">${list.map(card).join("")}</div>` : table(list);
+  const rb=$("reset"); if(rb) rb.onclick=()=>{st.q="";st.type="all";st.cs=[];$("q").value="";$("type").value="all";syncCountries();render()};
+}
+$("out").addEventListener("click",e=>{const b=e.target.closest("button[data-more]"); if(b){st.open.add(b.dataset.more); render()}});
+$("q").addEventListener("input",e=>{st.q=e.target.value;render()});
+$("type").addEventListener("change",e=>{st.type=e.target.value;render()});
+$("vCards").onclick=()=>{st.view="cards";try{localStorage.setItem("jb-view","cards")}catch(e){}render()};
+$("vTable").onclick=()=>{st.view="table";try{localStorage.setItem("jb-view","table")}catch(e){}render()};
+
+function drawList(){
+  const q=$("cq").value.trim().toLowerCase();
+  const items=ordered.filter(c=>!q||c.toLowerCase().includes(q)||cname(c).toLowerCase().includes(q));
+  const np=PRIORITY.filter(c=>items.includes(c)).length;
+  $("clist").innerHTML=items.map((c,i)=>`${!q&&i===np&&np?'<li class="sep" aria-hidden="true"></li>':""}<li><label><input type="checkbox" value="${c}" ${st.cs.includes(c)?"checked":""}>${esc(cname(c))}<code>${c}</code></label></li>`).join("") || `<li class="desc" style="padding:8px">No country matches.</li>`;
+}
+function syncCountries(){
+  $("clabel").textContent = !st.cs.length?"All countries":st.cs.length===1?cname(st.cs[0]):`${st.cs.length} countries`;
+}
+function openPop(o){ $("pop").hidden=!o; $("cbtn").setAttribute("aria-expanded",o); if(o){drawList(); $("cq").focus()} }
+$("cbtn").onclick=()=>openPop($("pop").hidden);
+$("cq").addEventListener("input",drawList);
+$("clist").addEventListener("change",e=>{const c=e.target.value; st.cs=e.target.checked?[...st.cs,c]:st.cs.filter(x=>x!==c); syncCountries(); render()});
+$("cclear").onclick=()=>{st.cs=[];syncCountries();drawList();render()};
+$("cdone").onclick=()=>openPop(false);
+document.addEventListener("click",e=>{if(!$("cwrap").contains(e.target)) openPop(false)});
+document.addEventListener("keydown",e=>{if(e.key==="Escape") openPop(false)});
+render();
+</script>

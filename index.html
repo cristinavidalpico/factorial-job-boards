@@ -10,37 +10,40 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: directory sheet — header with live counts, sticky filter bar, then a card grid or dense table of every posting route */
+/* Factorial look: midnight hero band, coral accent, DM Sans, pill controls (F0-like). Layout: directory sheet — header with live counts, sticky filter bar, then a card grid or dense table of every posting route */
 :root{
-  --bg:#f7f6f8; --surface:#ffffff; --surface-2:#f0eef2; --line:#e3e0e6;
-  --fg:#1d1a22; --muted:#6b6573;
-  --accent:#e0324f; --accent-soft:#fde8ec; --accent-fg:#ffffff;
-  --organic:#1f7a5c; --organic-soft:#e2f3ec;
-  --market:#4b4fc9; --market-soft:#e8e9fb;
-  --new:#b8570a; --new-soft:#fdf0e1;
-  --shadow:0 1px 2px rgba(29,26,34,.05),0 4px 14px rgba(29,26,34,.05);
-  --f-display:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;
-  --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --bg:#fafafc; --surface:#ffffff; --surface-2:#f6f6f8; --line:#e6e6ec;
+  --fg:#25253d; --muted:#6b6b80;
+  --accent:#ff355e; --accent-soft:#ffe3ea; --accent-fg:#ffffff; --accent-ink:#c60f35;
+  --organic:#05646b; --organic-soft:#e8f6f7;
+  --market:#c60f35; --market-soft:#fff0f3;
+  --new:#7a5600; --new-soft:#fff6e0;
+  --hero:#25253d; --hero-fg:#ffffff; --hero-muted:#c4c4d4;
+  --shadow:0 1px 2px rgba(37,37,61,.05),0 6px 18px rgba(37,37,61,.06);
+  --f-display:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#141218; --surface:#1d1a22; --surface-2:#26222c; --line:#34303b;
-  --fg:#f1eef4; --muted:#a39dab;
-  --accent:#ff5c76; --accent-soft:#3a1a22; --accent-fg:#1a0a0e;
-  --organic:#5fd0a6; --organic-soft:#16302a;
-  --market:#9a9dff; --market-soft:#24254a;
-  --new:#f5a352; --new-soft:#3a2614;
+  --bg:#1a1a2b; --surface:#23233a; --surface-2:#2b2b44; --line:#34344d;
+  --fg:#f6f6f8; --muted:#aeaeb8;
+  --accent:#ff355e; --accent-soft:rgba(255,53,94,.16); --accent-fg:#ffffff; --accent-ink:#ff7a94;
+  --organic:#5fd3db; --organic-soft:rgba(7,162,173,.2);
+  --market:#ff8aa1; --market-soft:rgba(255,53,94,.18);
+  --new:#ffd27f; --new-soft:rgba(255,193,85,.18);
+  --hero:#23233a; --hero-fg:#f6f6f8; --hero-muted:#aeaeb8;
   --shadow:0 1px 2px rgba(0,0,0,.3);
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#141218; --surface:#1d1a22; --surface-2:#26222c; --line:#34303b;
-  --fg:#f1eef4; --muted:#a39dab;
-  --accent:#ff5c76; --accent-soft:#3a1a22; --accent-fg:#1a0a0e;
-  --organic:#5fd0a6; --organic-soft:#16302a;
-  --market:#9a9dff; --market-soft:#24254a;
-  --new:#f5a352; --new-soft:#3a2614;
+  --bg:#1a1a2b; --surface:#23233a; --surface-2:#2b2b44; --line:#34344d;
+  --fg:#f6f6f8; --muted:#aeaeb8;
+  --accent:#ff355e; --accent-soft:rgba(255,53,94,.16); --accent-fg:#ffffff; --accent-ink:#ff7a94;
+  --organic:#5fd3db; --organic-soft:rgba(7,162,173,.2);
+  --market:#ff8aa1; --market-soft:rgba(255,53,94,.18);
+  --new:#ffd27f; --new-soft:rgba(255,193,85,.18);
+  --hero:#23233a; --hero-fg:#f6f6f8; --hero-muted:#aeaeb8;
   --shadow:0 1px 2px rgba(0,0,0,.3);
   color-scheme:dark}
 *{box-sizing:border-box}
@@ -128,21 +131,58 @@ td b{font-weight:600}
 .empty{text-align:center;padding:56px 16px;color:var(--muted)}
 footer.wrap{padding-block:0 40px;font-size:13px;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Factorial skin */
+body{letter-spacing:-.01em}
+.hero{background:var(--hero);color:var(--hero-fg)}
+.hero header.wrap{padding-block:40px 36px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.03em;color:var(--hero-fg)}
+.logo i{width:30px;height:30px;border-radius:999px;background:var(--accent);display:grid;place-items:center}
+.logo i::after{content:"";width:10px;height:10px;border-radius:999px;background:#fff}
+.hero .eyebrow{background:rgba(255,53,94,.18);color:#ff8aa1}
+.hero h1{font-weight:600;letter-spacing:-.035em;max-width:18ch}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .lede{color:var(--hero-muted)}
+.hero .stat span{color:var(--hero-muted)}
+.hero .stat b{font-weight:600;letter-spacing:-.03em}
+.hero .stats{gap:16px;margin-top:8px}
+.hero .stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 20px;min-width:150px}
+.under{display:grid;gap:12px;padding-block:20px 8px}
+.leg{border-radius:16px}
+.news{border-radius:999px;padding:8px 10px 8px 18px}
+@media (max-width:640px){.news{border-radius:16px}}
+input[type=search],.ctl select,.cbtn{border-radius:999px}
+.pop{border-radius:16px}
+.seg{border-radius:999px}
+.seg button{border-radius:999px}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-fg)}
+.card{border-radius:16px;box-shadow:none;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line));box-shadow:var(--shadow)}
+.av{border-radius:999px;font-family:var(--f-body);font-weight:600;font-size:14px}
+.ch h3{font-weight:600;letter-spacing:-.02em}
+.pk{border-radius:12px}
+.cc span,.cc button{border-radius:999px;padding:1px 8px}
+.linkbtn{color:var(--accent-ink)}
+.tbl{border-radius:16px}
+.stat b{font-family:var(--f-body)}
 </style>
 
 </head>
 <body>
-<header class="wrap">
-  <div class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Factorial Recruiting · Job Boards Directory</div>
-  <h1>Every job board, in one place.</h1>
+<div class="hero"><header class="wrap">
+  <div class="brandrow"><span class="logo"><i aria-hidden="true"></i>factorial</span>
+  <div class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Recruiting · Job Boards Directory</div></div>
+  <h1>Every job board, <em>in one place.</em></h1>
   <p class="lede">Explore the complete catalogue of paid Marketplace packages and Basic / Import Client Contract integrations available from Factorial Recruiting.</p>
   <div class="stats" id="stats"></div>
+</header></div>
+<section class="wrap under">
   <div class="legend">
     <div class="leg"><i style="background:var(--organic)"></i><div><b>Basic / Import Client Contract</b><p>Organic postings, or integrations that use your existing contract with the job board.</p></div></div>
     <div class="leg"><i style="background:var(--market)"></i><div><b>Marketplace</b><p>Premium paid posting packages you buy directly through Factorial.</p></div></div>
   </div>
   <div class="news" id="news"></div>
-</header>
+</section>
 
 <div class="bar">
   <div class="wrap">
